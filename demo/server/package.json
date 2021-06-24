@@ -1,0 +1,23 @@
+{
+  "name": "file-uploader-demo-server",
+  "version": "1.0.0",
+  "description": "通用文件分片上传组件使用样例",
+  "author": "shadowingszy",
+  "license": "ISC",
+  "scripts": {
+    "demo:start": "node ./index.js",
+    "demo:clean": "rm -rf ./file/mergedUploadFile/* && rm -rf ./file/tempUploadFile/*"
+  },
+  "dependencies": {
+    "@koa/cors": "^3.1.0",
+    "@koa/multer": "^3.0.0",
+    "file-uploader-server": "file:../../dist/fileUploadServer",
+    "koa": "^2.13.1",
+    "koa-body": "^4.2.0",
+    "koa-bodyparser": "^4.3.0",
+    "koa-router": "^10.0.0",
+    "koa-static": "^5.0.0",
+    "multer": "^1.4.2",
+    "multistream": "^4.1.0"
+  }
+}

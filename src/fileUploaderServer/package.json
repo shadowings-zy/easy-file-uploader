@@ -1,0 +1,15 @@
+{
+  "name": "file-uploader-server",
+  "version": "1.0.0",
+  "description": "后端通用文件分片上传组件",
+  "author": "shadowingszy",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.11",
+    "typescript": "^4.3.4"
+  },
+  "dependencies": {
+    "fs-extra": "^10.0.0",
+    "multistream": "^4.1.0"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "target": "es2015",
+    "module": "es2015",
+    "lib": [
+      "dom",
+      "dom.iterable"
+    ],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "outDir": "../../dist/fileUploadClient",
+    "declaration": true,
+    "declarationDir": "../../dist/fileUploadClient"
+  },
+  "include": ["./src/**/*.ts"],
+  "exclude": ["../../node_modules", "./node_modules"]
+}

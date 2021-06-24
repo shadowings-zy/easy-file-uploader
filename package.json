@@ -1,0 +1,30 @@
+{
+  "name": "file-uploader",
+  "version": "1.0.0",
+  "description": "通用文件分片上传组件",
+  "scripts": {
+    "build:all": "rm -rf ./dist && npm run build:client && npm run build:server",
+    "build:client": "cd ./src/fileUploaderClient && tsc",
+    "build:server": "cd ./src/fileUploaderServer && tsc",
+    "test:unit": "jest",
+    "test:clean": "rm -rf ./test/mergedUploadFile/* && rm -rf ./test/tempUploadFile/*",
+    "demo:run": "cd ./demo/client && react-scripts build && cd ../server && node ./index.js"
+  },
+  "author": "shadowingszy",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^9.0.11",
+    "@types/jest": "^26.0.23",
+    "fs-extra": "^10.0.0",
+    "jest": "26.6.0",
+    "ts-jest": "^26.5.6",
+    "typescript": "^4.3.4"
+  },
+  "private": true,
+  "workspaces": [
+    "demo/client",
+    "demo/server",
+    "src/fileUploaderClient",
+    "src/fileUploaderServer"
+  ]
+}
