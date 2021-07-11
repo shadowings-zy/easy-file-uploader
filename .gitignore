@@ -2,3 +2,5 @@ node_modules
 */**/mergedUploadFile/*
 */**/tempUploadFile/*
 .DS_Store
+demo/client/build
+demo/server/public

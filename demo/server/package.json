@@ -1,12 +1,12 @@
 {
-  "name": "file-uploader-demo-server",
+  "name": "easy-file-uploader-demo-server",
   "version": "1.0.0",
   "description": "通用文件分片上传组件使用样例",
   "author": "shadowingszy",
   "license": "ISC",
   "scripts": {
-    "demo:start": "node ./index.js",
-    "demo:clean": "rm -rf ./file/mergedUploadFile/* && rm -rf ./file/tempUploadFile/*"
+    "demo:dev": "node ./index.js",
+    "demo:clean": "rm -rf ./public/mergedUploadFile/* && rm -rf ./public/tempUploadFile/*"
   },
   "dependencies": {
     "@koa/cors": "^3.1.0",

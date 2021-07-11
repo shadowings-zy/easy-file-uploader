@@ -5,8 +5,8 @@ const path = require("path");
 const fse = require("fs-extra");
 const util_1 = require("./util");
 const exception_1 = require("./exception");
-const DEAFULT_TEMP_FILE_LOCATION = path.join(__dirname, "./upload_file");
-const DEAFULT_MERGED_FILE_LOCATION = path.join(__dirname, "./merged_file");
+const DEAFULT_TEMP_FILE_LOCATION = path.join(__dirname, './upload_file');
+const DEAFULT_MERGED_FILE_LOCATION = path.join(__dirname, './merged_file');
 const DEFAULT_OPTIONS = {
     tempFileLocation: DEAFULT_TEMP_FILE_LOCATION,
     mergedFileLocation: DEAFULT_MERGED_FILE_LOCATION,
@@ -26,11 +26,12 @@ class FileUploader {
      */
     async initFilePartUpload(fileName) {
         const { tempFileLocation } = this.fileUploaderOptions;
+        await fse.ensureDir(tempFileLocation);
         const uploadId = util_1.calculateMd5(`${fileName}-${Date.now()}`);
         const uploadFolderPath = path.join(tempFileLocation, uploadId);
         const uploadFolderExist = fse.existsSync(uploadFolderPath);
         if (uploadFolderExist) {
-            throw new exception_1.FolderExistException("found same upload folder, maybe you meet hash collision");
+            throw new exception_1.FolderExistException('found same upload folder, maybe you meet hash collision');
         }
         await fse.mkdir(uploadFolderPath);
         return uploadId;
@@ -58,7 +59,7 @@ class FileUploader {
         const uploadFolderPath = await this.getUploadFolder(uploadId);
         const dirList = await util_1.listDir(uploadFolderPath);
         const uploadPartInfo = dirList.map((item) => {
-            const [index, md5] = item.name.replace(/\.part$/, "").split("|");
+            const [index, md5] = item.name.replace(/\.part$/, '').split('|');
             return {
                 path: item.path,
                 index: parseInt(index),
@@ -89,17 +90,19 @@ class FileUploader {
      * @returns 文件存储路径
      */
     async finishFilePartUpload(uploadId, fileName, md5) {
+        const { mergedFileLocation } = this.fileUploaderOptions;
+        await fse.ensureDir(mergedFileLocation);
         const uploadFolderPath = await this.getUploadFolder(uploadId);
         const dirList = await util_1.listDir(uploadFolderPath);
-        const files = dirList.filter((item) => item.path.endsWith(".part"));
-        const mergedFileDirLocation = path.join(this.fileUploaderOptions.mergedFileLocation, md5);
+        const files = dirList.filter((item) => item.path.endsWith('.part'));
+        const mergedFileDirLocation = path.join(mergedFileLocation, md5);
         await fse.ensureDir(mergedFileDirLocation);
         const mergedFilePath = path.join(mergedFileDirLocation, fileName);
         await util_1.mergePartFile(files, mergedFilePath);
         await util_1.wait(1000); // 要等待一段时间，否则在计算md5时会读取到空文件
         const mergedFileMd5 = await util_1.calculateFileMd5(mergedFilePath);
         if (mergedFileMd5 !== md5) {
-            throw new exception_1.Md5Exception("md5 checked failed");
+            throw new exception_1.Md5Exception('md5 checked failed');
         }
         return {
             path: mergedFilePath,
@@ -113,10 +116,11 @@ class FileUploader {
      */
     async getUploadFolder(uploadId) {
         const { tempFileLocation } = this.fileUploaderOptions;
+        await fse.ensureDir(tempFileLocation);
         const uploadFolderPath = path.join(tempFileLocation, uploadId);
         const uploadFolderExist = fse.existsSync(uploadFolderPath);
         if (!uploadFolderExist) {
-            throw new exception_1.NotFoundException("not found upload folder");
+            throw new exception_1.NotFoundException('not found upload folder');
         }
         return uploadFolderPath;
     }

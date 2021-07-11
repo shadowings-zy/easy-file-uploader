@@ -13,22 +13,22 @@ function wait(time) {
 }
 exports.wait = wait;
 function calculateMd5(content) {
-    const hash = crypto.createHash("md5");
-    return hash.update(content).digest("hex");
+    const hash = crypto.createHash('md5');
+    return hash.update(content).digest('hex');
 }
 exports.calculateMd5 = calculateMd5;
 function calculateFileMd5(path) {
     return new Promise((resolve, reject) => {
-        const hash = crypto.createHash("md5");
+        const hash = crypto.createHash('md5');
         const readStream = fse.createReadStream(path);
-        readStream.on("error", (err) => {
+        readStream.on('error', (err) => {
             reject(err);
         });
-        readStream.on("data", (data) => {
+        readStream.on('data', (data) => {
             hash.update(data);
         });
-        readStream.on("end", function () {
-            const md5 = hash.digest("hex");
+        readStream.on('end', function () {
+            const md5 = hash.digest('hex');
             resolve(md5);
         });
     });
@@ -37,7 +37,7 @@ exports.calculateFileMd5 = calculateFileMd5;
 async function listDir(path) {
     const items = await fse.readdir(path);
     return Promise.all(items
-        .filter((item) => !item.startsWith("."))
+        .filter((item) => !item.startsWith('.'))
         .map(async (item) => {
         return {
             name: item,
@@ -48,7 +48,7 @@ async function listDir(path) {
 exports.listDir = listDir;
 async function mergePartFile(files, mergedFilePath) {
     const fileList = files.map((item) => {
-        const [index] = item.name.replace(/\.part$/, "").split("|");
+        const [index] = item.name.replace(/\.part$/, '').split('|');
         return {
             index: parseInt(index),
             path: item.path,
@@ -62,7 +62,7 @@ async function mergePartFile(files, mergedFilePath) {
 }
 exports.mergePartFile = mergePartFile;
 function merge(inputPathList, outputPath) {
-    const fd = fse.openSync(outputPath, "w+");
+    const fd = fse.openSync(outputPath, 'w+');
     const writeStream = fse.createWriteStream(outputPath);
     const readStreamList = inputPathList.map((path) => {
         return fse.createReadStream(path);
@@ -70,11 +70,11 @@ function merge(inputPathList, outputPath) {
     return new Promise((resolve, reject) => {
         const multiStream = new MultiStream(readStreamList);
         multiStream.pipe(writeStream);
-        multiStream.on("end", () => {
+        multiStream.on('end', () => {
             fse.closeSync(fd);
             resolve(true);
         });
-        multiStream.on("error", () => {
+        multiStream.on('error', () => {
             fse.closeSync(fd);
             reject(false);
         });

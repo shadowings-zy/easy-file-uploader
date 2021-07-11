@@ -7,8 +7,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-import SparkMD5 from "spark-md5";
-import { getBlobSlice } from "./util";
+import SparkMD5 from 'spark-md5';
+import { getBlobSlice } from './util';
 const DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024;
 const DEFAULT_OPTIONS = {
     chunkSize: DEFAULT_CHUNK_SIZE,
@@ -47,7 +47,7 @@ export class FileUploaderClient {
                     }
                 };
                 fileReader.onerror = function (e) {
-                    console.warn("read file error", e);
+                    console.warn('read file error', e);
                     reject(e);
                 };
                 function loadNextChunk() {
@@ -75,7 +75,7 @@ export class FileUploaderClient {
                 !(requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.initFilePartUploadFunc) ||
                 !(requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.uploadPartFileFunc) ||
                 !(requestOptions === null || requestOptions === void 0 ? void 0 : requestOptions.finishFilePartUploadFunc)) {
-                throw Error("invalid request options, need retryTimes, initFilePartUploadFunc, uploadPartFileFunc and finishFilePartUploadFunc");
+                throw Error('invalid request options, need retryTimes, initFilePartUploadFunc, uploadPartFileFunc and finishFilePartUploadFunc');
             }
             yield requestOptions.initFilePartUploadFunc();
             for (let index = 0; index < chunkList.length; index++) {

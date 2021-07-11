@@ -1,5 +1,5 @@
 {
-  "name": "file-uploader",
+  "name": "easy-file-uploader",
   "version": "1.0.0",
   "description": "通用文件分片上传组件",
   "scripts": {
@@ -8,7 +8,7 @@
     "build:server": "cd ./src/fileUploaderServer && tsc",
     "test:unit": "jest",
     "test:clean": "rm -rf ./test/mergedUploadFile/* && rm -rf ./test/tempUploadFile/*",
-    "demo:run": "cd ./demo/client && react-scripts build && cd ../server && node ./index.js"
+    "demo:run": "cd ./demo/client && npm run demo:build && cp -r ./build/* ../server/public/ && cd ../server && node ./index.js"
   },
   "author": "shadowingszy",
   "license": "ISC",

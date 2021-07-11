@@ -1,5 +1,5 @@
 {
-  "name": "file-uploader-demo-client",
+  "name": "easy-file-uploader-demo-client",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -21,7 +21,7 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "demo:start": "react-scripts start",
+    "demo:dev": "react-scripts start",
     "demo:build": "react-scripts build"
   },
   "eslintConfig": {
