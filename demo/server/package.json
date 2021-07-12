@@ -11,7 +11,7 @@
   "dependencies": {
     "@koa/cors": "^3.1.0",
     "@koa/multer": "^3.0.0",
-    "file-uploader-server": "file:../../dist/fileUploadServer",
+    "file-uploader-server": "file:../../package/fileUploaderServer/dist",
     "koa": "^2.13.1",
     "koa-body": "^4.2.0",
     "koa-bodyparser": "^4.3.0",

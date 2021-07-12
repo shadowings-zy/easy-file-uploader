@@ -2,10 +2,10 @@
   "extends": "../../tsconfig.json",
   "compilerOptions": {
     "target": "esnext",
-    "outDir": "../../dist/fileUploadServer",
+    "outDir": "./dist",
     "module": "commonjs",
     "declaration": true,
-    "declarationDir": "../../dist/fileUploadServer"
+    "declarationDir": "./dist"
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["../../node_modules", "./node_modules"]

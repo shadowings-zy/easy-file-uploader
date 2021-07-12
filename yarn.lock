@@ -1924,11 +1924,6 @@
   resolved "https://r.cnpmjs.org/@types/source-list-map/download/@types/source-list-map-0.1.2.tgz#0078836063ffaf17412349bba364087e0ac02ec9"
   integrity sha1-AHiDYGP/rxdBI0m7o2QIfgrALsk=
 
-"@types/spark-md5@^3.0.2":
-  version "3.0.2"
-  resolved "https://r.cnpmjs.org/@types/spark-md5/download/@types/spark-md5-3.0.2.tgz#da2e8a778a20335fc4f40b6471c4b0d86b70da55"
-  integrity sha1-2i6Kd4ogM1/E9AtkccSw2Gtw2lU=
-
 "@types/stack-utils@^2.0.0":
   version "2.0.1"
   resolved "https://r.cnpmjs.org/@types/stack-utils/download/@types/stack-utils-2.0.1.tgz#20f18294f797f2209b5f65c8e3b5c8e8261d127c"
@@ -5118,10 +5113,10 @@ file-loader@6.1.1:
     loader-utils "^2.0.0"
     schema-utils "^3.0.0"
 
-"file-uploader-client@file:dist/fileUploadClient":
+"file-uploader-client@file:package/fileUploaderClient/dist":
   version "0.0.0"
 
-"file-uploader-server@file:dist/fileUploadServer":
+"file-uploader-server@file:package/fileUploaderServer/dist":
   version "0.0.0"
 
 file-uri-to-path@1.0.0:
@@ -10872,8 +10867,6 @@ to-object-path@^0.3.0:
   version "0.3.0"
   resolved "https://r.cnpmjs.org/to-object-path/download/to-object-path-0.3.0.tgz#297588b7b0e7e0ac08e04e672f85c1f4999e17af"
   integrity sha1-KXWIt7Dn4KwI4E5nL4XB9JmeF68=
-  dependencies:
-    kind-of "^3.0.2"
 
 to-regex-range@^2.1.0:
   version "2.1.1"

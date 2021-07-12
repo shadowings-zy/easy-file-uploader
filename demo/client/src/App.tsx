@@ -55,7 +55,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>file-uploader-demo</h1>
+      <h1>easy-file-uploader-demo</h1>
       <h3>选择文件后点击“上传文件”按钮即可</h3>
       <div className="App">
         <input type="file" name="file" ref={fileInput} />

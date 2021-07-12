@@ -1,10 +1,10 @@
 import * as path from 'path'
 import * as fse from 'fs-extra'
-import { FileUploader } from '../src/fileUploaderServer/src/index'
-import { calculateFileMd5 } from '../src/fileUploaderServer/src/util'
+import { FileUploaderServer } from '../package/fileUploaderServer/src/index'
+import { calculateFileMd5 } from '../package/fileUploaderServer/src/util'
 
-const FILE_PATH = path.join(__dirname, './test.png') // you can change the filePath by yourself
-const FILE_NAME = 'test.png'
+const FILE_PATH = path.join(__dirname, './test.png') // you can change the FILE_PATH by yourself
+const FILE_NAME = 'test.png' // you can change the FILE_NAME by yourself
 
 const uploadFileBuffer = fse.readFileSync(FILE_PATH)
 const uploadPart: any = []
@@ -22,11 +22,11 @@ for (let a = 0; a < partNumber; a++) {
 
 test('upload', async () => {
   const fileMd5 = await calculateFileMd5(FILE_PATH)
-  const fileUploader = new FileUploader({
+  const fileUploader = new FileUploaderServer({
     tempFileLocation: path.join(__dirname, './tempUploadFile'),
     mergedFileLocation: path.join(__dirname, './mergedUploadFile'),
   })
-  const uploadId = await fileUploader.initFilePartUpload('test.png')
+  const uploadId = await fileUploader.initFilePartUpload(FILE_NAME)
   expect(uploadId.length).toBe(32)
 
   for (let a = 0; a < uploadPart.length; a++) {
@@ -35,6 +35,6 @@ test('upload', async () => {
   const fileList = await fileUploader.listUploadedPartFile(uploadId)
   expect(fileList.length).toBe(partNumber)
 
-  const { md5 } = await fileUploader.finishFilePartUpload(uploadId, 'test.png', fileMd5)
+  const { md5 } = await fileUploader.finishFilePartUpload(uploadId, FILE_NAME, fileMd5)
   expect(md5).toBe(fileMd5)
 })

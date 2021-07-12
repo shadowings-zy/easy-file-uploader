@@ -9,9 +9,9 @@
     ],
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "outDir": "../../dist/fileUploadClient",
+    "outDir": "./dist",
     "declaration": true,
-    "declarationDir": "../../dist/fileUploadClient"
+    "declarationDir": "./dist"
   },
   "include": ["./src/**/*.ts"],
   "exclude": ["../../node_modules", "./node_modules"]

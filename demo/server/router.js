@@ -1,12 +1,12 @@
 const KoaRouter = require('koa-router')
 const multer = require('@koa/multer')
 const path = require('path')
-const { FileUploader } = require('file-uploader-server')
+const { FileUploaderServer } = require('file-uploader-server')
 
 const upload = multer()
 const router = KoaRouter()
 
-const fileUploader = new FileUploader({
+const fileUploader = new FileUploaderServer({
   tempFileLocation: path.join(__dirname, './public/tempUploadFile'),
   mergedFileLocation: path.join(__dirname, './public/mergedUploadFile'),
 })
