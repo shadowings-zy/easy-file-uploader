@@ -8,7 +8,8 @@
     "build:server": "cd ./package/fileUploaderServer && tsc",
     "test:unit": "jest",
     "test:clean": "rm -rf ./test/mergedUploadFile && rm -rf ./test/tempUploadFile",
-    "demo:run": "cd ./demo/client && npm run demo:build && cp -r ./build/* ../server/public/ && cd ../server && node ./index.js"
+    "demo:run": "cd ./demo/client && npm run demo:build && cp -r ./build/* ../server/public/ && cd ../server && node ./index.js",
+    "format": "prettier --write './package/**/*.ts' './demo/**/*.ts' './test/**/*.ts'"
   },
   "author": "shadowingszy",
   "license": "ISC",
@@ -17,6 +18,7 @@
     "@types/jest": "^26.0.23",
     "fs-extra": "^10.0.0",
     "jest": "26.6.0",
+    "prettier": "^2.3.2",
     "ts-jest": "^26.5.6",
     "typescript": "^4.3.4"
   },

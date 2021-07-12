@@ -7,28 +7,28 @@ export enum FILE_UPLOADER_STATUS_CODE {
 }
 
 export class Exception extends Error {
-  code: FILE_UPLOADER_STATUS_CODE
+  code: FILE_UPLOADER_STATUS_CODE;
   constructor(code: FILE_UPLOADER_STATUS_CODE, message: string) {
-    super(message)
-    this.code = code
-    this.message = message
+    super(message);
+    this.code = code;
+    this.message = message;
   }
 }
 
 export class FolderExistException extends Exception {
   constructor(message: string) {
-    super(FILE_UPLOADER_STATUS_CODE.FOLDER_EXIST, message)
+    super(FILE_UPLOADER_STATUS_CODE.FOLDER_EXIST, message);
   }
 }
 
 export class NotFoundException extends Exception {
   constructor(message: string) {
-    super(FILE_UPLOADER_STATUS_CODE.NOT_FOUND, message)
+    super(FILE_UPLOADER_STATUS_CODE.NOT_FOUND, message);
   }
 }
 
 export class Md5Exception extends Exception {
   constructor(message: string) {
-    super(FILE_UPLOADER_STATUS_CODE.MD5_CHECK_FAILED, message)
+    super(FILE_UPLOADER_STATUS_CODE.MD5_CHECK_FAILED, message);
   }
 }

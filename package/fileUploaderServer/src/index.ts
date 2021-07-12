@@ -1,40 +1,51 @@
-import * as path from 'path'
-import * as fse from 'fs-extra'
-import { calculateFileMd5, calculateMd5, IFileInfo, listDir, mergePartFile, wait } from './util'
-import { FolderExistException, Md5Exception, NotFoundException } from './exception'
+import * as path from 'path';
+import * as fse from 'fs-extra';
+import {
+  calculateFileMd5,
+  calculateMd5,
+  IFileInfo,
+  listDir,
+  mergePartFile,
+  wait,
+} from './util';
+import {
+  FolderExistException,
+  Md5Exception,
+  NotFoundException,
+} from './exception';
 
-const DEAFULT_TEMP_FILE_LOCATION = path.join(__dirname, './upload_file')
-const DEAFULT_MERGED_FILE_LOCATION = path.join(__dirname, './merged_file')
+const DEAFULT_TEMP_FILE_LOCATION = path.join(__dirname, './upload_file');
+const DEAFULT_MERGED_FILE_LOCATION = path.join(__dirname, './merged_file');
 const DEFAULT_OPTIONS = {
   tempFileLocation: DEAFULT_TEMP_FILE_LOCATION,
   mergedFileLocation: DEAFULT_MERGED_FILE_LOCATION,
-}
+};
 
 export interface IFileUploaderOptions {
-  tempFileLocation: string
-  mergedFileLocation: string
+  tempFileLocation: string;
+  mergedFileLocation: string;
 }
 
 export interface IUploadPartInfo {
-  path: string
-  index: number
-  md5: string
+  path: string;
+  index: number;
+  md5: string;
 }
 
 export interface IMergedFileInfo {
-  path: string
-  md5: string
+  path: string;
+  md5: string;
 }
 
 export class FileUploaderServer {
-  private fileUploaderOptions: IFileUploaderOptions
+  private fileUploaderOptions: IFileUploaderOptions;
 
   constructor(options: IFileUploaderOptions) {
-    this.fileUploaderOptions = Object.assign(DEFAULT_OPTIONS, options)
+    this.fileUploaderOptions = Object.assign(DEFAULT_OPTIONS, options);
   }
 
   public getOptions() {
-    return this.fileUploaderOptions
+    return this.fileUploaderOptions;
   }
 
   /**
@@ -43,16 +54,18 @@ export class FileUploaderServer {
    * @returns 上传Id
    */
   public async initFilePartUpload(fileName: string): Promise<string> {
-    const { tempFileLocation } = this.fileUploaderOptions
-    await fse.ensureDir(tempFileLocation)
-    const uploadId = calculateMd5(`${fileName}-${Date.now()}`)
-    const uploadFolderPath = path.join(tempFileLocation, uploadId)
-    const uploadFolderExist = fse.existsSync(uploadFolderPath)
+    const { tempFileLocation } = this.fileUploaderOptions;
+    await fse.ensureDir(tempFileLocation);
+    const uploadId = calculateMd5(`${fileName}-${Date.now()}`);
+    const uploadFolderPath = path.join(tempFileLocation, uploadId);
+    const uploadFolderExist = fse.existsSync(uploadFolderPath);
     if (uploadFolderExist) {
-      throw new FolderExistException('found same upload folder, maybe you meet hash collision')
+      throw new FolderExistException(
+        'found same upload folder, maybe you meet hash collision',
+      );
     }
-    await fse.mkdir(uploadFolderPath)
-    return uploadId
+    await fse.mkdir(uploadFolderPath);
+    return uploadId;
   }
 
   /**
@@ -62,12 +75,19 @@ export class FileUploaderServer {
    * @param partFile 分片内容
    * @returns 分片md5
    */
-  public async uploadPartFile(uploadId: string, partIndex: number, partFile: Buffer): Promise<string> {
-    const uploadFolderPath = await this.getUploadFolder(uploadId)
-    const partFileMd5 = calculateMd5(partFile)
-    const partFileLocation = path.join(uploadFolderPath, `${partIndex}|${partFileMd5}.part`)
-    await fse.writeFile(partFileLocation, partFile)
-    return partFileMd5
+  public async uploadPartFile(
+    uploadId: string,
+    partIndex: number,
+    partFile: Buffer,
+  ): Promise<string> {
+    const uploadFolderPath = await this.getUploadFolder(uploadId);
+    const partFileMd5 = calculateMd5(partFile);
+    const partFileLocation = path.join(
+      uploadFolderPath,
+      `${partIndex}|${partFileMd5}.part`,
+    );
+    await fse.writeFile(partFileLocation, partFile);
+    return partFileMd5;
   }
 
   /**
@@ -75,18 +95,20 @@ export class FileUploaderServer {
    * @param uploadId 上传Id
    * @returns 已上传的分片信息
    */
-  public async listUploadedPartFile(uploadId: string): Promise<IUploadPartInfo[]> {
-    const uploadFolderPath = await this.getUploadFolder(uploadId)
-    const dirList = await listDir(uploadFolderPath)
+  public async listUploadedPartFile(
+    uploadId: string,
+  ): Promise<IUploadPartInfo[]> {
+    const uploadFolderPath = await this.getUploadFolder(uploadId);
+    const dirList = await listDir(uploadFolderPath);
     const uploadPartInfo = dirList.map((item: IFileInfo) => {
-      const [index, md5] = item.name.replace(/\.part$/, '').split('|')
+      const [index, md5] = item.name.replace(/\.part$/, '').split('|');
       return {
         path: item.path,
         index: parseInt(index),
         md5,
-      }
-    })
-    return uploadPartInfo
+      };
+    });
+    return uploadPartInfo;
   }
 
   /**
@@ -94,12 +116,15 @@ export class FileUploaderServer {
    * @param uploadId 上传Id
    * @param deleteFolder 是否直接删除文件夹
    */
-  async cancelFilePartUpload(uploadId: string, deleteFolder: boolean = false): Promise<void> {
-    const uploadFolderPath = await this.getUploadFolder(uploadId)
+  async cancelFilePartUpload(
+    uploadId: string,
+    deleteFolder: boolean = false,
+  ): Promise<void> {
+    const uploadFolderPath = await this.getUploadFolder(uploadId);
     if (deleteFolder) {
-      await fse.remove(uploadFolderPath)
+      await fse.remove(uploadFolderPath);
     } else {
-      await fse.rename(uploadFolderPath, `${uploadFolderPath}[removed]`)
+      await fse.rename(uploadFolderPath, `${uploadFolderPath}[removed]`);
     }
   }
 
@@ -110,25 +135,29 @@ export class FileUploaderServer {
    * @param md5 文件md5
    * @returns 文件存储路径
    */
-  async finishFilePartUpload(uploadId: string, fileName: string, md5: string): Promise<IMergedFileInfo> {
-    const { mergedFileLocation } = this.fileUploaderOptions
-    await fse.ensureDir(mergedFileLocation)
-    const uploadFolderPath = await this.getUploadFolder(uploadId)
-    const dirList = await listDir(uploadFolderPath)
-    const files = dirList.filter((item) => item.path.endsWith('.part'))
-    const mergedFileDirLocation = path.join(mergedFileLocation, md5)
-    await fse.ensureDir(mergedFileDirLocation)
-    const mergedFilePath = path.join(mergedFileDirLocation, fileName)
-    await mergePartFile(files, mergedFilePath)
-    await wait(1000) // 要等待一段时间，否则在计算md5时会读取到空文件
-    const mergedFileMd5 = await calculateFileMd5(mergedFilePath)
+  async finishFilePartUpload(
+    uploadId: string,
+    fileName: string,
+    md5: string,
+  ): Promise<IMergedFileInfo> {
+    const { mergedFileLocation } = this.fileUploaderOptions;
+    await fse.ensureDir(mergedFileLocation);
+    const uploadFolderPath = await this.getUploadFolder(uploadId);
+    const dirList = await listDir(uploadFolderPath);
+    const files = dirList.filter((item) => item.path.endsWith('.part'));
+    const mergedFileDirLocation = path.join(mergedFileLocation, md5);
+    await fse.ensureDir(mergedFileDirLocation);
+    const mergedFilePath = path.join(mergedFileDirLocation, fileName);
+    await mergePartFile(files, mergedFilePath);
+    await wait(1000); // 要等待一段时间，否则在计算md5时会读取到空文件
+    const mergedFileMd5 = await calculateFileMd5(mergedFilePath);
     if (mergedFileMd5 !== md5) {
-      throw new Md5Exception('md5 checked failed')
+      throw new Md5Exception('md5 checked failed');
     }
     return {
       path: mergedFilePath,
       md5,
-    }
+    };
   }
 
   /**
@@ -137,13 +166,13 @@ export class FileUploaderServer {
    * @returns 文件夹路径
    */
   private async getUploadFolder(uploadId: string): Promise<string> {
-    const { tempFileLocation } = this.fileUploaderOptions
-    await fse.ensureDir(tempFileLocation)
-    const uploadFolderPath = path.join(tempFileLocation, uploadId)
-    const uploadFolderExist = fse.existsSync(uploadFolderPath)
+    const { tempFileLocation } = this.fileUploaderOptions;
+    await fse.ensureDir(tempFileLocation);
+    const uploadFolderPath = path.join(tempFileLocation, uploadId);
+    const uploadFolderExist = fse.existsSync(uploadFolderPath);
     if (!uploadFolderExist) {
-      throw new NotFoundException('not found upload folder')
+      throw new NotFoundException('not found upload folder');
     }
-    return uploadFolderPath
+    return uploadFolderPath;
   }
 }
