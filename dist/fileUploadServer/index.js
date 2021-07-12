@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FileUploader = void 0;
+exports.FileUploaderServer = void 0;
 const path = require("path");
 const fse = require("fs-extra");
 const util_1 = require("./util");
@@ -11,7 +11,7 @@ const DEFAULT_OPTIONS = {
     tempFileLocation: DEAFULT_TEMP_FILE_LOCATION,
     mergedFileLocation: DEAFULT_MERGED_FILE_LOCATION,
 };
-class FileUploader {
+class FileUploaderServer {
     fileUploaderOptions;
     constructor(options) {
         this.fileUploaderOptions = Object.assign(DEFAULT_OPTIONS, options);
@@ -125,4 +125,4 @@ class FileUploader {
         return uploadFolderPath;
     }
 }
-exports.FileUploader = FileUploader;
+exports.FileUploaderServer = FileUploaderServer;

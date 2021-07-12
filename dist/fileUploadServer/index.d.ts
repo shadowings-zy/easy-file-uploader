@@ -12,7 +12,7 @@ export interface IMergedFileInfo {
     path: string;
     md5: string;
 }
-export declare class FileUploader {
+export declare class FileUploaderServer {
     private fileUploaderOptions;
     constructor(options: IFileUploaderOptions);
     getOptions(): IFileUploaderOptions;

@@ -26,7 +26,7 @@ export interface IMergedFileInfo {
   md5: string
 }
 
-export class FileUploader {
+export class FileUploaderServer {
   private fileUploaderOptions: IFileUploaderOptions
 
   constructor(options: IFileUploaderOptions) {

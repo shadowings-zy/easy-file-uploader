@@ -20,7 +20,9 @@ export declare class FileUploaderClient {
         chunkList: Blob[];
     }>;
     /**
-     * 上传文件方法，会依次执行getChunkListAndFileMd5、initFilePartUploadFunc、uploadPartFileFunc、finishFilePartUploadFunc，并返回上传结果，若有分片上传失败，则会自动重试
+     * 上传文件方法，当FileUploaderClient的配置项中传入了requestOptions才能使用
+     * 会依次执行getChunkListAndFileMd5、配置项中的initFilePartUploadFunc、配置项中的uploadPartFileFunc、配置项中的finishFilePartUploadFunc
+     * 执行完成后返回上传结果，若有分片上传失败，则会自动重试
      * @param file 要上传的文件
      * @returns finishFilePartUploadFunc函数Promise resolve的值
      */
