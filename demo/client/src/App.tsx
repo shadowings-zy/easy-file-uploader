@@ -1,7 +1,9 @@
 import { useRef, useState } from 'react'
 import './App.css'
-import { FileUploaderClient } from 'file-uploader-client'
 import axios from 'axios'
+import { FileUploaderClient } from 'file-uploader-client'
+// import { FileUploaderClient } from 'easy-file-uploader-client' //or you can use easy-file-uploader-client on npm
+
 
 const HOST = 'http://localhost:10001/'
 

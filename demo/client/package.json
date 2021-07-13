@@ -11,6 +11,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "axios": "^0.21.1",
+    "easy-file-uploader-client": "^1.0.3",
     "file-uploader-client": "file:../../package/fileUploaderClient/dist",
     "http-proxy-middleware": "^2.0.1",
     "react": "^17.0.2",

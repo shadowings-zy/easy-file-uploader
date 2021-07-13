@@ -1,9 +1,20 @@
 {
   "name": "easy-file-uploader-server",
-  "version": "1.0.0",
+  "version": "1.0.4",
   "description": "后端通用文件分片上传组件",
   "author": "shadowingszy",
   "license": "ISC",
+  "repository": "shadowings-zy/easy-file-uploader",
+  "main": "dist/index.js",
+  "keywords": [
+    "file-upload",
+    "upload-server"
+  ],
+  "files": [
+    "dist/*",
+    "package.json",
+    "README.md"
+  ],
   "devDependencies": {
     "@types/fs-extra": "^9.0.11",
     "typescript": "^4.3.4"

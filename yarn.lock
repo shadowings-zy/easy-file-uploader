@@ -4418,6 +4418,29 @@ duplexify@^3.4.2, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
+easy-file-uploader-client@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/easy-file-uploader-client/-/easy-file-uploader-client-1.0.3.tgz#2a7ec8676027e690a25073020118766f589d3719"
+  integrity sha512-UMlnvimSAYfeT4ZatzSMfzdC4xqYPSZZsRad3tP/1h4CkvaYR7PX8jujlDZsbqPeYD5Rp4pquzyhzGQvVbcUEQ==
+  dependencies:
+    spark-md5 "^3.0.1"
+
+easy-file-uploader-server@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.npmjs.org/easy-file-uploader-server/-/easy-file-uploader-server-1.0.3.tgz#36aced47d4305fcd7a992da3eba1fb39fd448805"
+  integrity sha512-1U4zv3r0wrbMrm2+Ok2OmOjY3u95BB2GRYSIXb4xVkzoOBPw3y6WtczXwywoDIh/XnX6W9gXePwd4UKjOGJcqA==
+  dependencies:
+    fs-extra "^10.0.0"
+    multistream "^4.1.0"
+
+easy-file-uploader-server@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.npmjs.org/easy-file-uploader-server/-/easy-file-uploader-server-1.0.4.tgz#630e1408a8a76a311302dc0c0b8a53fb9a2718d7"
+  integrity sha512-uZ2LYYwlgSDt16Nq/mL5V0ZbJfTJytHCraTPOPThK7Qo/WJYDorLbmKWiKNLUiE7vWpCbqEvo9hKXffGW3oJrg==
+  dependencies:
+    fs-extra "^10.0.0"
+    multistream "^4.1.0"
+
 ee-first@1.1.1:
   version "1.1.1"
   resolved "https://r.cnpmjs.org/ee-first/download/ee-first-1.1.1.tgz#590c61156b0ae2f4f0255732a158b266bc56b21d"
@@ -10872,6 +10895,8 @@ to-object-path@^0.3.0:
   version "0.3.0"
   resolved "https://r.cnpmjs.org/to-object-path/download/to-object-path-0.3.0.tgz#297588b7b0e7e0ac08e04e672f85c1f4999e17af"
   integrity sha1-KXWIt7Dn4KwI4E5nL4XB9JmeF68=
+  dependencies:
+    kind-of "^3.0.2"
 
 to-regex-range@^2.1.0:
   version "2.1.1"
