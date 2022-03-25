@@ -1,6 +1,6 @@
 {
   "name": "easy-file-uploader-server",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "后端通用文件分片上传组件",
   "author": "shadowingszy",
   "license": "ISC",

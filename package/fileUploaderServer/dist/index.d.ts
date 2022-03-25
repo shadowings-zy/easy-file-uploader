@@ -13,6 +13,7 @@ export interface IMergedFileInfo {
     md5: string;
 }
 export declare class FileUploaderServer {
+    private fileSpliter;
     private fileUploaderOptions;
     constructor(options: IFileUploaderOptions);
     getOptions(): IFileUploaderOptions;
@@ -23,7 +24,7 @@ export declare class FileUploaderServer {
      */
     initFilePartUpload(fileName: string): Promise<string>;
     /**
-     * 上传分片，实际上是将partFile写入uploadId对应的文件夹中，写入的文件命名格式为`partIndex|md5`
+     * 上传分片，实际上是将partFile写入uploadId对应的文件夹中，写入的文件命名格式为`partIndex${this.fileSpliter}md5`
      * @param uploadId 上传Id
      * @param partIndex 分片序号
      * @param partFile 分片内容

@@ -6,5 +6,5 @@ export interface IFileInfo {
 export declare function wait(time: number): Promise<void>;
 export declare function calculateMd5(content: Buffer | string): string;
 export declare function calculateFileMd5(path: string): Promise<string>;
-export declare function listDir(path: string): Promise<IFileInfo[]>;
-export declare function mergePartFile(files: IFileInfo[], mergedFilePath: string): Promise<void>;
+export declare function listDir(dirPath: string): Promise<IFileInfo[]>;
+export declare function mergePartFile(files: IFileInfo[], mergedFilePath: string, fileSpliter: string): Promise<void>;

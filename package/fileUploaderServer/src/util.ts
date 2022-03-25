@@ -1,6 +1,7 @@
 import * as crypto from 'crypto';
 import * as fse from 'fs-extra';
 import * as MultiStream from 'multistream';
+import * as path from 'path';
 
 export interface IFileInfo {
   name: string;
@@ -40,15 +41,15 @@ export function calculateFileMd5(path: string): Promise<string> {
   });
 }
 
-export async function listDir(path: string): Promise<IFileInfo[]> {
-  const items = await fse.readdir(path);
+export async function listDir(dirPath: string): Promise<IFileInfo[]> {
+  const items = await fse.readdir(dirPath);
   return Promise.all(
     items
       .filter((item: string) => !item.startsWith('.'))
       .map(async (item: string) => {
         return {
           name: item,
-          path: `${path}/${item}`,
+          path: path.join(dirPath, item),
         };
       }),
   );
@@ -57,9 +58,10 @@ export async function listDir(path: string): Promise<IFileInfo[]> {
 export async function mergePartFile(
   files: IFileInfo[],
   mergedFilePath: string,
+  fileSpliter: string,
 ): Promise<void> {
   const fileList = files.map((item) => {
-    const [index] = item.name.replace(/\.part$/, '').split('|');
+    const [index] = item.name.replace(/\.part$/, '').split(fileSpliter);
     return {
       index: parseInt(index),
       path: item.path,

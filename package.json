@@ -6,8 +6,8 @@
     "build:all": "rm -rf ./dist && npm run build:client && npm run build:server",
     "build:client": "cd ./package/fileUploaderClient && tsc",
     "build:server": "cd ./package/fileUploaderServer && tsc",
+    "clean": "rm -rf ./test/mergedUploadFile ./test/tempUploadFile && cd ./demo/server && npm run demo:clean",
     "test:unit": "jest",
-    "test:clean": "rm -rf ./test/mergedUploadFile && rm -rf ./test/tempUploadFile",
     "demo:run": "cd ./demo/client && npm run demo:build && cp -r ./build/* ../server/public/ && cd ../server && node ./index.js",
     "format": "prettier --write './package/**/*.ts' './demo/**/*.ts' './test/**/*.ts'"
   },

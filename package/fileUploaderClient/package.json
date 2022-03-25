@@ -1,6 +1,6 @@
 {
   "name": "easy-file-uploader-client",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "前端通用文件分片上传组件",
   "author": "shadowingszy",
   "license": "ISC",

@@ -30,7 +30,7 @@ router.post('/api/uploadPart', upload.single('partFile'), async (ctx, next) => {
 router.post('/api/finishUpload', async (ctx, next) => {
   const { uploadId, name, md5 } = ctx.request.body
   const { path: filePathOnServer } = await fileUploader.finishFilePartUpload(uploadId, name, md5)
-  const suffix = filePathOnServer.split('/public/')[1]
+  const suffix = filePathOnServer.split(`${path.sep}public${path.sep}`)[1]
   ctx.body = { path: suffix }
   await next()
 })

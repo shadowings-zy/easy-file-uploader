@@ -38,6 +38,7 @@ export interface IMergedFileInfo {
 }
 
 export class FileUploaderServer {
+  private fileSpliter: string = '_SPLIT_';
   private fileUploaderOptions: IFileUploaderOptions;
 
   constructor(options: IFileUploaderOptions) {
@@ -69,7 +70,7 @@ export class FileUploaderServer {
   }
 
   /**
-   * 上传分片，实际上是将partFile写入uploadId对应的文件夹中，写入的文件命名格式为`partIndex|md5`
+   * 上传分片，实际上是将partFile写入uploadId对应的文件夹中，写入的文件命名格式为`partIndex${this.fileSpliter}md5`
    * @param uploadId 上传Id
    * @param partIndex 分片序号
    * @param partFile 分片内容
@@ -84,7 +85,7 @@ export class FileUploaderServer {
     const partFileMd5 = calculateMd5(partFile);
     const partFileLocation = path.join(
       uploadFolderPath,
-      `${partIndex}|${partFileMd5}.part`,
+      `${partIndex}${this.fileSpliter}${partFileMd5}.part`,
     );
     await fse.writeFile(partFileLocation, partFile);
     return partFileMd5;
@@ -101,7 +102,9 @@ export class FileUploaderServer {
     const uploadFolderPath = await this.getUploadFolder(uploadId);
     const dirList = await listDir(uploadFolderPath);
     const uploadPartInfo = dirList.map((item: IFileInfo) => {
-      const [index, md5] = item.name.replace(/\.part$/, '').split('|');
+      const [index, md5] = item.name
+        .replace(/\.part$/, '')
+        .split(this.fileSpliter);
       return {
         path: item.path,
         index: parseInt(index),
@@ -148,7 +151,7 @@ export class FileUploaderServer {
     const mergedFileDirLocation = path.join(mergedFileLocation, md5);
     await fse.ensureDir(mergedFileDirLocation);
     const mergedFilePath = path.join(mergedFileDirLocation, fileName);
-    await mergePartFile(files, mergedFilePath);
+    await mergePartFile(files, mergedFilePath, this.fileSpliter);
     await wait(1000); // 要等待一段时间，否则在计算md5时会读取到空文件
     const mergedFileMd5 = await calculateFileMd5(mergedFilePath);
     if (mergedFileMd5 !== md5) {

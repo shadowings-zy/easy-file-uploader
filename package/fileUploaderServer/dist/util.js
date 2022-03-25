@@ -4,6 +4,7 @@ exports.mergePartFile = exports.listDir = exports.calculateFileMd5 = exports.cal
 const crypto = require("crypto");
 const fse = require("fs-extra");
 const MultiStream = require("multistream");
+const path = require("path");
 function wait(time) {
     return new Promise((resolve) => {
         setTimeout(() => {
@@ -34,21 +35,21 @@ function calculateFileMd5(path) {
     });
 }
 exports.calculateFileMd5 = calculateFileMd5;
-async function listDir(path) {
-    const items = await fse.readdir(path);
+async function listDir(dirPath) {
+    const items = await fse.readdir(dirPath);
     return Promise.all(items
         .filter((item) => !item.startsWith('.'))
         .map(async (item) => {
         return {
             name: item,
-            path: `${path}/${item}`,
+            path: path.join(dirPath, item),
         };
     }));
 }
 exports.listDir = listDir;
-async function mergePartFile(files, mergedFilePath) {
+async function mergePartFile(files, mergedFilePath, fileSpliter) {
     const fileList = files.map((item) => {
-        const [index] = item.name.replace(/\.part$/, '').split('|');
+        const [index] = item.name.replace(/\.part$/, '').split(fileSpliter);
         return {
             index: parseInt(index),
             path: item.path,

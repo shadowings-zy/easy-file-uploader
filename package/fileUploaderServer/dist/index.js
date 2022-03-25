@@ -12,6 +12,7 @@ const DEFAULT_OPTIONS = {
     mergedFileLocation: DEAFULT_MERGED_FILE_LOCATION,
 };
 class FileUploaderServer {
+    fileSpliter = '_SPLIT_';
     fileUploaderOptions;
     constructor(options) {
         this.fileUploaderOptions = Object.assign(DEFAULT_OPTIONS, options);
@@ -37,7 +38,7 @@ class FileUploaderServer {
         return uploadId;
     }
     /**
-     * 上传分片，实际上是将partFile写入uploadId对应的文件夹中，写入的文件命名格式为`partIndex|md5`
+     * 上传分片，实际上是将partFile写入uploadId对应的文件夹中，写入的文件命名格式为`partIndex${this.fileSpliter}md5`
      * @param uploadId 上传Id
      * @param partIndex 分片序号
      * @param partFile 分片内容
@@ -46,7 +47,7 @@ class FileUploaderServer {
     async uploadPartFile(uploadId, partIndex, partFile) {
         const uploadFolderPath = await this.getUploadFolder(uploadId);
         const partFileMd5 = util_1.calculateMd5(partFile);
-        const partFileLocation = path.join(uploadFolderPath, `${partIndex}|${partFileMd5}.part`);
+        const partFileLocation = path.join(uploadFolderPath, `${partIndex}${this.fileSpliter}${partFileMd5}.part`);
         await fse.writeFile(partFileLocation, partFile);
         return partFileMd5;
     }
@@ -59,7 +60,9 @@ class FileUploaderServer {
         const uploadFolderPath = await this.getUploadFolder(uploadId);
         const dirList = await util_1.listDir(uploadFolderPath);
         const uploadPartInfo = dirList.map((item) => {
-            const [index, md5] = item.name.replace(/\.part$/, '').split('|');
+            const [index, md5] = item.name
+                .replace(/\.part$/, '')
+                .split(this.fileSpliter);
             return {
                 path: item.path,
                 index: parseInt(index),
@@ -98,7 +101,7 @@ class FileUploaderServer {
         const mergedFileDirLocation = path.join(mergedFileLocation, md5);
         await fse.ensureDir(mergedFileDirLocation);
         const mergedFilePath = path.join(mergedFileDirLocation, fileName);
-        await util_1.mergePartFile(files, mergedFilePath);
+        await util_1.mergePartFile(files, mergedFilePath, this.fileSpliter);
         await util_1.wait(1000); // 要等待一段时间，否则在计算md5时会读取到空文件
         const mergedFileMd5 = await util_1.calculateFileMd5(mergedFilePath);
         if (mergedFileMd5 !== md5) {
